@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Rahasia lokal — jangan diunggah
+.env
+.env.*
+!.env.example
