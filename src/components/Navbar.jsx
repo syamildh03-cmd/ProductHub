@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Boxes, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import useWishlist from '../hooks/useWishlist.js'
 
 const NAV_ITEMS = [
@@ -18,9 +18,9 @@ export default function Navbar() {
   return (
     <header className="navbar">
       <div className="container navbar__inner">
-        <Link to="/" className="navbar__brand" onClick={closeMenu}>
-          <Boxes size={22} aria-hidden="true" />
-          <span>ProductHub</span>
+        <Link to="/" className="navbar__brand" onClick={closeMenu} aria-label="ProductHub — beranda">
+          <span className="navbar__mark" aria-hidden="true">P</span>
+          <span className="navbar__name">ProductHub</span>
         </Link>
 
         <button

@@ -18,7 +18,7 @@ function getGreeting() {
 
 export default function Home() {
   const [greeting] = useState(getGreeting)
-  const { totalProducts, featured, loading, error, retry } = useCatalogSummary(4)
+  const { totalProducts, featured, deals, loading, error, retry } = useCatalogSummary(4)
   const { categories } = useCategories()
   const { count: wishlistCount } = useWishlist()
 
@@ -26,17 +26,30 @@ export default function Home() {
     <>
       <section className="hero">
         <div className="container hero__inner">
-          <p className="hero__greeting">{greeting}, selamat datang di ProductHub</p>
-          <h1>Cari produk yang pas, simpan yang paling Anda suka.</h1>
-          <p className="hero__lead">
-            Jelajahi katalog produk, saring berdasarkan kategori, urutkan sesuai harga, dan kumpulkan favorit Anda dalam satu tempat.
-          </p>
-          <Link to="/products" className="btn btn--primary btn--lg">
-            Buka katalog <ArrowRight size={18} aria-hidden="true" />
-          </Link>
+          <div className="hero__copy">
+            <p className="hero__greeting">{greeting}, selamat datang di ProductHub.</p>
+            <h1>Temukan produk terbaik, simpan yang paling Anda sukai.</h1>
+            <p className="hero__lead">
+              Jelajahi katalog lengkap, saring berdasarkan kategori, urutkan sesuai harga, dan kumpulkan favorit Anda dalam satu tempat.
+            </p>
+            <div className="hero__actions">
+              <Link to="/products" className="btn btn--primary btn--lg">
+                Buka katalog <ArrowRight size={18} aria-hidden="true" />
+              </Link>
+              <Link to="/wishlist" className="btn btn--ghost btn--lg">Lihat wishlist</Link>
+            </div>
+          </div>
+
+          <div className="hero__visual">
+            {[0, 1, 2].map((index) => (
+              <figure key={index}>
+                {featured[index] && <img src={featured[index].thumbnail} alt={featured[index].title} />}
+              </figure>
+            ))}
+          </div>
 
           <dl className="stats">
-            <div><dt>Produk</dt><dd>{loading ? '…' : totalProducts}</dd></div>
+            <div><dt>Produk tersedia</dt><dd>{loading ? '…' : totalProducts}</dd></div>
             <div><dt>Kategori</dt><dd>{categories.length || '…'}</dd></div>
             <div><dt>Wishlist Anda</dt><dd>{wishlistCount}</dd></div>
           </dl>
@@ -68,6 +81,19 @@ export default function Home() {
             ))}
             <li><Link to="/products" className="chip chip--more">Semua kategori</Link></li>
           </ul>
+        </section>
+      )}
+
+      {!loading && !error && deals.length > 0 && (
+        <section className="container section" aria-labelledby="deals-title">
+          <header className="section__header">
+            <div>
+              <h2 id="deals-title">Rekomendasi untuk Anda</h2>
+              <p className="muted">Produk dengan diskon terbesar saat ini.</p>
+            </div>
+            <Link to="/products?sort=price-asc" className="text-link">Urutkan harga terendah</Link>
+          </header>
+          <ProductGrid products={deals} />
         </section>
       )}
     </>

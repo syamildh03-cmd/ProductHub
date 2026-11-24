@@ -4,16 +4,17 @@ import useWishlist from '../hooks/useWishlist.js'
 import ProductGallery from './ProductGallery.jsx'
 import { formatCurrency } from '../utils/formatCurrency.js'
 
-function getStockLabel(stock) {
-  if (stock <= 0) return 'Stok habis'
-  if (stock < 10) return `Stok menipis (${stock} tersisa)`
-  return `Stok tersedia (${stock})`
+function getStock(stock) {
+  if (stock <= 0) return { level: 'out', label: 'Stok habis' }
+  if (stock < 10) return { level: 'low', label: `Stok menipis (${stock} tersisa)` }
+  return { level: 'ok', label: `Stok tersedia (${stock})` }
 }
 
 export default function ProductDetailView({ product, backTo }) {
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist()
   const saved = isInWishlist(product.id)
   const discount = Math.round(product.discountPercentage ?? 0)
+  const stock = getStock(product.stock)
   const images = product.images?.length ? product.images : [product.thumbnail]
 
   return (
@@ -42,7 +43,7 @@ export default function ProductDetailView({ product, backTo }) {
           <dl className="detail__facts">
             <div><dt>Kategori</dt><dd>{product.category}</dd></div>
             <div><dt>Brand</dt><dd>{product.brand ?? '—'}</dd></div>
-            <div><dt>Stok</dt><dd>{getStockLabel(product.stock)}</dd></div>
+            <div><dt>Stok</dt><dd><span className={`stock stock--${stock.level}`}>{stock.label}</span></dd></div>
             <div><dt>Diskon</dt><dd>{discount >= 1 ? `${discount}%` : 'Tidak ada'}</dd></div>
           </dl>
 

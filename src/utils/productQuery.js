@@ -51,3 +51,10 @@ export function getPageItems(currentPage, totalPages) {
 export function topRated(products, count) {
   return [...products].sort((a, b) => b.rating - a.rating).slice(0, count)
 }
+
+export function topDiscounted(products, count, excludeIds = []) {
+  return products
+    .filter((product) => !excludeIds.includes(product.id))
+    .sort((a, b) => (b.discountPercentage ?? 0) - (a.discountPercentage ?? 0))
+    .slice(0, count)
+}

@@ -1,6 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom'
 import useProduct from '../hooks/useProduct.js'
 import ProductDetailView from '../components/ProductDetailView.jsx'
+import RelatedProducts from '../components/RelatedProducts.jsx'
 import Loading from '../components/Loading.jsx'
 import ErrorMessage from '../components/ErrorMessage.jsx'
 
@@ -16,6 +17,9 @@ export default function ProductDetail() {
       {loading && <Loading label="Memuat detail produk…" />}
       {!loading && error && <ErrorMessage message={error} onRetry={retry} />}
       {!loading && !error && product && <ProductDetailView key={product.id} product={product} backTo={backTo} />}
+      {!loading && !error && product && (
+        <RelatedProducts category={product.category} currentId={product.id} backTo={backTo} />
+      )}
     </section>
   )
 }
