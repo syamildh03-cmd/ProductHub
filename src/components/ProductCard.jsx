@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Heart, Star } from 'lucide-react'
 import useWishlist from '../hooks/useWishlist.js'
+import { formatCategory } from '../utils/formatCategory.js'
 import { formatCurrency } from '../utils/formatCurrency.js'
 
 export default function ProductCard({ product, backTo }) {
@@ -19,7 +20,7 @@ export default function ProductCard({ product, backTo }) {
           {discount >= 1 && <span className="product-card__discount">{`-${discount}%`}</span>}
         </div>
         <div className="product-card__body">
-          <p className="product-card__meta">{product.brand ?? product.category}</p>
+          <p className="product-card__meta">{product.brand ?? formatCategory(product.category)}</p>
           <h3>{product.title}</h3>
           <div className="product-card__foot">
             <span className="price">{formatCurrency(product.price)}</span>

@@ -12,9 +12,9 @@ React 19 · Vite · JavaScript (JSX) · React Router DOM 7 · Context API · Fet
 Tanpa backend dan tanpa database; wishlist dan catatan disimpan di `localStorage`.
 
 ## 3. Fitur
-- **Beranda** (`/`): sapaan sesuai jam, statistik (jumlah produk, kategori, wishlist), 4 produk dengan rating tertinggi, daftar kategori.
-- **Katalog** (`/products`): search nama, filter kategori, sorting (nama/harga), pagination 12 produk per halaman, tombol reset filter, state loading/error/kosong. Semua kondisi disimpan di URL.
-- **Detail** (`/products/:id`): galeri foto, harga, deskripsi, kategori, rating, brand, stok, diskon, tombol wishlist, tombol kembali (mempertahankan filter terakhir).
+- **Beranda** (`/`): sapaan sesuai jam, statistik (jumlah produk, kategori, wishlist), 4 produk dengan rating tertinggi, daftar kategori, dan rekomendasi (diskon terbesar).
+- **Katalog** (`/products`): search nama, filter kategori, sorting (nama/harga), pagination 12 produk per halaman, tombol reset filter, state loading/error/kosong. Semua kondisi disimpan di URL. Kotak pencarian memakai draft lokal dan menulis ke URL setelah jeda ±250 ms, agar ketikan cepat tidak hilang.
+- **Detail** (`/products/:id`): galeri foto, harga, deskripsi, kategori, rating, brand, stok, diskon, tombol wishlist, indikator stok, produk serupa (sekategori), dan tombol kembali (mempertahankan filter terakhir).
 - **Wishlist** (`/wishlist`): tambah/hapus, empty state, tersimpan di `localStorage`, jumlahnya tampil di navbar.
 - **Catatan produk** (`/notes`): form dengan validasi (judul min. 3 karakter, deskripsi wajib, kategori wajib), tambah dan hapus catatan, tersimpan di `localStorage`.
 - Halaman 404, responsif (desktop/tablet/mobile), semantic HTML, alt text, label form, fokus keyboard terlihat, link "lewati ke konten".
@@ -51,7 +51,7 @@ Semua pemanggilan API ada di `src/services/productService.js`: `getProducts()`, 
 
 ## 7. Custom Hooks (`src/hooks`)
 - `useFetch` — server state generik (data/loading/error/retry + abort).
-- `useProducts`, `useProduct`, `useCategories`, `useCatalogSummary` — hook data berbasis `useFetch`.
+- `useProducts`, `useProduct`, `useCategories`, `useCatalogSummary`, `useRelatedProducts` — hook data berbasis `useFetch`.
 - `useLocalStorage` — `useState` yang tersinkron dengan `localStorage` (aman bila storage diblokir).
 - `useNotes`, `useWishlist` — akses data catatan dan konsumsi context.
 
@@ -61,18 +61,65 @@ Semua pemanggilan API ada di `src/services/productService.js`: `getProducts()`, 
 ## 9. Struktur Folder
 ```
 src/
-├── components/   Navbar, Footer, ProductCard, ProductGrid, ProductGallery, ProductDetailView,
-│                 SearchBar, SelectField, FilterDropdown, SortDropdown, Pagination,
-│                 Loading, ErrorMessage, EmptyState, NoteForm, NoteList
-├── layouts/      MainLayout.jsx
-├── pages/        Home, Products, ProductDetail, Wishlist, ProductNotes, NotFound
-├── context/      WishlistContext.jsx, wishlistContextValue.js
-├── hooks/        useFetch, useProducts, useProduct, useCategories, useCatalogSummary,
-│                 useLocalStorage, useNotes, useWishlist
-├── services/     productService.js
-├── utils/        formatCurrency, productQuery, wishlist, notes
-├── App.jsx · main.jsx · index.css
+├── components/
+│   ├── EmptyState.jsx
+│   ├── ErrorMessage.jsx
+│   ├── FilterDropdown.jsx
+│   ├── Footer.jsx
+│   ├── Loading.jsx
+│   ├── Navbar.jsx
+│   ├── NoteForm.jsx
+│   ├── NoteList.jsx
+│   ├── Pagination.jsx
+│   ├── ProductCard.jsx
+│   ├── ProductDetailView.jsx  # tampilan detail (dipisah dari fetching)
+│   ├── ProductGallery.jsx
+│   ├── ProductGrid.jsx
+│   ├── RelatedProducts.jsx  # produk serupa di halaman detail
+│   ├── SearchBar.jsx  # kotak pencarian dengan draft lokal + jeda
+│   ├── SelectField.jsx  # dasar bersama Filter/Sort dropdown
+│   └── SortDropdown.jsx
+├── layouts/
+│   └── MainLayout.jsx
+├── pages/
+│   ├── Home.jsx
+│   ├── NotFound.jsx
+│   ├── ProductDetail.jsx
+│   ├── ProductNotes.jsx
+│   ├── Products.jsx
+│   └── Wishlist.jsx
+├── context/
+│   ├── WishlistContext.jsx
+│   └── wishlistContextValue.js
+├── hooks/
+│   ├── useCatalogSummary.js  # ringkasan beranda (unggulan + rekomendasi)
+│   ├── useCategories.js
+│   ├── useFetch.js  # server state generik
+│   ├── useLocalStorage.js
+│   ├── useNotes.js
+│   ├── useProduct.js
+│   ├── useProducts.js
+│   ├── useRelatedProducts.js  # produk sekategori untuk "Produk serupa"
+│   └── useWishlist.js
+├── services/
+│   └── productService.js
+├── utils/
+│   ├── formatCategory.js  # slug kategori → teks tampilan
+│   ├── formatCurrency.js
+│   ├── notes.js
+│   ├── productQuery.js
+│   └── wishlist.js
+├── App.jsx            # definisi rute
+├── main.jsx           # BrowserRouter + WishlistProvider
+└── index.css          # design token + seluruh gaya
 ```
+
+## 9b. Desain & Responsif
+- **Identitas:** "modern luxury" — latar `#F7F5F0`, kartu putih, teks `#1E293B`, aksen `#A68A64`, border `#E9E4DA`. Seluruh warna, radius, dan bayangan berupa CSS variable di `:root` (`src/index.css`).
+- **Tipografi:** Inter (teks) dan Instrument Serif (judul), dimuat dari Google Fonts lewat `index.html`.
+- **Breakpoint:** 960px (hero dan form catatan menjadi satu kolom), 760px (navbar mobile, grid 2 kolom), 720px (detail produk satu kolom), 480px (dropdown selebar penuh).
+- **Interaksi:** transisi ringan (hover kartu, zoom gambar, indikator menu aktif, menu mobile, animasi hati wishlist, fade halaman).
+- **Aksesibilitas gerak:** blok `@media (prefers-reduced-motion: reduce)` mematikan seluruh animasi, transisi, dan smooth scroll.
 
 ## 10. Instalasi
 Prasyarat: Node.js 20+ dan npm.
@@ -104,13 +151,17 @@ git push -u origin main
 File `.env` sudah dikecualikan lewat `.gitignore`; proyek ini tidak memakai rahasia apa pun.
 
 ## 13. Catatan Pengujian
-Pengembangan disertai pengujian otomatis di jsdom dengan API tiruan (alur search/filter/sort/pagination via URL, wishlist, detail, form validasi, localStorage, error + retry, 404, menu mobile) dan `npm run lint` + `npm run build` tanpa error. Sebelum dikumpulkan, lakukan cek manual di browser dengan internet:
-- [ ] `/products` memuat produk asli dari DummyJSON; coba search, kategori, sort, halaman 2.
-- [ ] Salin URL dengan parameter, buka di tab baru → kondisi sama.
-- [ ] Tambah wishlist → refresh → data tetap ada; badge navbar sesuai.
-- [ ] Buka `/products/5` langsung dan refresh (di Vercel tidak 404).
-- [ ] Matikan internet → muncul pesan error; nyalakan lagi → "Coba lagi".
-- [ ] Cek tampilan di lebar HP (±375px) dan tablet.
+Pengujian dijalankan selama pengembangan di lingkungan tanpa akses ke `dummyjson.com`, sehingga **API asli belum terverifikasi oleh pengembang**; semua uji memakai data tiruan yang meniru bentuk respons DummyJSON.
+- **Uji otomatis (jsdom):** service API (termasuk error 404/500/jaringan/abort), fungsi filter/sort/pagination, wishlist, validasi dan persistensi catatan, serta 10 skenario end-to-end (URL state, wishlist, detail, produk serupa, error + retry, 404, menu mobile).
+- **Uji browser (Chromium headless, data tiruan):** tidak ada horizontal overflow di 375, 768, dan 1440 px pada 11 kondisi halaman; font termuat; `prefers-reduced-motion` mematikan animasi; menu mobile; alur klik nyata (search, filter, sort, pagination, wishlist bertahan setelah reload, refresh pada `/products/:id`, 404, form catatan, state error).
+- `npm run lint` dan `npm run build` bersih. Skrip uji tidak disertakan dalam repository ini.
+
+Yang **masih perlu Anda cek sendiri** dengan internet dan browser Anda:
+- [ ] `/products` memuat produk asli DummyJSON; coba search, kategori, sort, halaman 2.
+- [ ] Gambar produk asli tampil proporsional di kartu dan galeri detail (pengujian memakai gambar tiruan).
+- [ ] Tampilan di perangkat nyata (HP dan tablet), bukan hanya emulasi lebar layar.
+- [ ] Setelah deploy: buka `/products/5` langsung dan refresh (harus tidak 404 di Vercel).
+- [ ] Matikan internet → pesan error muncul; nyalakan lagi → "Coba lagi".
 
 ---
 

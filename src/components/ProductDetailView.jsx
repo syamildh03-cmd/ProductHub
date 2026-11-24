@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowLeft, Heart, Star } from 'lucide-react'
 import useWishlist from '../hooks/useWishlist.js'
 import ProductGallery from './ProductGallery.jsx'
+import { formatCategory } from '../utils/formatCategory.js'
 import { formatCurrency } from '../utils/formatCurrency.js'
 
 function getStock(stock) {
@@ -27,7 +28,7 @@ export default function ProductDetailView({ product, backTo }) {
         <ProductGallery images={images} title={product.title} />
 
         <div className="detail__info">
-          <p className="muted">{product.brand ? `${product.brand} · ` : ''}{product.category}</p>
+          <p className="muted">{product.brand ? `${product.brand} · ` : ''}{formatCategory(product.category)}</p>
           <h1>{product.title}</h1>
           <p className="rating rating--lg">
             <Star size={16} aria-hidden="true" /> {product.rating.toFixed(1)} rating
@@ -41,7 +42,7 @@ export default function ProductDetailView({ product, backTo }) {
           <p className="detail__desc">{product.description}</p>
 
           <dl className="detail__facts">
-            <div><dt>Kategori</dt><dd>{product.category}</dd></div>
+            <div><dt>Kategori</dt><dd>{formatCategory(product.category)}</dd></div>
             <div><dt>Brand</dt><dd>{product.brand ?? '—'}</dd></div>
             <div><dt>Stok</dt><dd><span className={`stock stock--${stock.level}`}>{stock.label}</span></dd></div>
             <div><dt>Diskon</dt><dd>{discount >= 1 ? `${discount}%` : 'Tidak ada'}</dd></div>
