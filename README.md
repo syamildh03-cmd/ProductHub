@@ -1,227 +1,242 @@
 # ProductHub — Smart Product Catalog
 
-Aplikasi katalog produk berbasis **React** untuk menjelajahi produk, mencari produk, menyaring berdasarkan kategori, mengurutkan harga, melihat detail, menyimpan favorit (*wishlist*), dan membuat catatan produk.
+**A modern product catalog application built with React.**
 
-**Jenis tugas:** Individu — Mata Kuliah Pemrograman Web  
-**Materi:** React Routing, State Management, Data Fetching, dan Application Architecture.
+ProductHub is a responsive web application for discovering and exploring products through a clean, modern interface. Users can browse a product catalog, search and filter products, sort results, view product details, manage a wishlist, and create personal product notes.
 
-**Repository:** https://github.com/syamildh03-cmd/ProductHub
+**Live Demo:** https://product-hub-kappa-murex.vercel.app  
+**Source Code:** https://github.com/syamildh03-cmd/ProductHub
 
 ---
 
-## 1. Tujuan Proyek
+## Project Overview
 
-ProductHub dikembangkan untuk menerapkan konsep React modern dalam sebuah aplikasi katalog produk. Proyek ini mencakup:
+ProductHub was developed as an individual project for the Web Programming course, focusing on:
 
-- Implementasi client-side routing menggunakan React Router.
-- Penerapan lima jenis state management.
-- Pengambilan data dari API publik.
-- Pembuatan reusable components dan custom hooks.
-- Pemisahan UI, logika aplikasi, dan layanan API.
-- Penyimpanan data lokal menggunakan `localStorage`.
-- Pembuatan antarmuka yang responsif dan mudah digunakan.
+- React Routing
+- State Management
+- Data Fetching
+- Reusable Components
+- Custom Hooks
+- Application Architecture
 
-## 2. Teknologi yang Digunakan
+The project demonstrates how these concepts can be organized into a functional React application with a clear separation between the user interface, application logic, and API services.
 
-| Teknologi | Kegunaan |
+## Features
+
+### 1. Home Page
+- Overview of the product catalog.
+- Product highlights and recommendations.
+- Product category navigation.
+- Catalog statistics and wishlist summary.
+
+### 2. Product Catalog
+- Search products by name.
+- Filter products by category.
+- Sort products by name and price.
+- Pagination with 12 products per page.
+- Loading, error, and empty states.
+- Search, filter, sorting, and pagination state reflected in the URL.
+
+### 3. Product Details
+- Product image gallery.
+- Product name, description, and category.
+- Price, discount, rating, brand, and stock information.
+- Add or remove products from the wishlist.
+- Related products from the same category.
+- Navigation back to the previous catalog state.
+
+### 4. Wishlist
+- Add and remove favorite products.
+- Wishlist count displayed in the navigation.
+- Data persistence using browser `localStorage`.
+- Empty state when no products have been saved.
+
+### 5. Product Notes
+- Create personal notes about products.
+- Form validation for required fields.
+- View and delete saved notes.
+- Notes persist using browser `localStorage`.
+
+### 6. Additional Features
+- Responsive layouts for desktop, tablet, and mobile.
+- Custom 404 page.
+- Accessible form labels and image alternative text.
+- Keyboard-visible focus indicators.
+- Reduced-motion support.
+
+---
+
+## Technology Stack
+
+| Technology | Purpose |
 |---|---|
-| React 19 | Library untuk membangun antarmuka |
-| Vite | Development server dan build tool |
-| JavaScript (JSX) | Bahasa pemrograman aplikasi |
-| React Router DOM 7 | Navigasi dan routing |
-| Context API | Pengelolaan global state |
-| Fetch API | Mengambil data dari API |
-| CSS3 | Styling dan responsive design |
-| Lucide React | Ikon antarmuka |
-| DummyJSON API | Sumber data produk |
-| localStorage | Penyimpanan wishlist dan catatan |
-| Git & GitHub | Version control dan repository |
-| Vercel | Target deployment aplikasi |
+| React 19 | User interface development |
+| Vite | Development server and build tool |
+| JavaScript (JSX) | Application programming language |
+| React Router DOM 7 | Client-side routing |
+| Context API | Global wishlist state |
+| Fetch API | Data retrieval |
+| Custom Hooks | Reusable application logic |
+| CSS3 | Styling and responsive layouts |
+| Lucide React | Interface icons |
+| DummyJSON | Public product API |
+| Git & GitHub | Version control and source code hosting |
+| Vercel | Application deployment |
 
-**Catatan:** Aplikasi tidak menggunakan backend atau database sendiri. Wishlist dan catatan produk disimpan secara lokal pada browser melalui `localStorage`.
+**Storage:** This project does not use a custom backend or database. Wishlist items and product notes are stored locally in the browser using `localStorage`.
 
-## 3. Fitur Aplikasi
+## Application Architecture
 
-### 3.1 Beranda (`/`)
-- Menampilkan sapaan berdasarkan waktu.
-- Menampilkan statistik jumlah produk, kategori, dan wishlist.
-- Menampilkan empat produk dengan rating tertinggi.
-- Menampilkan daftar kategori produk.
-- Menampilkan rekomendasi produk berdasarkan diskon terbesar.
+The project follows a separation-of-concerns approach:
 
-### 3.2 Katalog Produk (`/products`)
-- Pencarian produk berdasarkan nama.
-- Filter produk berdasarkan kategori.
-- Pengurutan berdasarkan nama dan harga.
-- Pagination sebanyak 12 produk per halaman.
-- Tombol reset filter.
-- Tampilan loading, error, dan empty state.
-- Parameter pencarian, kategori, sorting, dan halaman tersimpan dalam URL.
-- Input pencarian menggunakan draft lokal dan jeda sekitar 250 ms sebelum memperbarui URL agar pengetikan cepat tetap nyaman.
+- **Components:** reusable interface elements.
+- **Pages:** page-level application views.
+- **Layouts:** shared page structure.
+- **Hooks:** reusable state and data-fetching logic.
+- **Context:** shared global state.
+- **Services:** API communication.
+- **Utils:** independent helper functions and data-processing logic.
 
-### 3.3 Detail Produk (`/products/:id`)
-- Menampilkan informasi detail produk.
-- Galeri gambar produk.
-- Harga, deskripsi, kategori, rating, brand, stok, dan diskon.
-- Tombol tambah atau hapus wishlist.
-- Indikator ketersediaan stok.
-- Rekomendasi produk serupa berdasarkan kategori.
-- Tombol kembali ke katalog dengan mempertahankan kondisi filter sebelumnya.
-
-### 3.4 Wishlist (`/wishlist`)
-- Menambahkan produk ke daftar favorit.
-- Menghapus produk dari wishlist.
-- Menampilkan empty state jika belum ada produk favorit.
-- Menyimpan data wishlist menggunakan `localStorage`.
-- Menampilkan jumlah wishlist pada navbar.
-
-### 3.5 Catatan Produk (`/notes`)
-- Membuat catatan untuk produk.
-- Validasi judul minimal tiga karakter.
-- Validasi deskripsi dan kategori wajib diisi.
-- Menghapus catatan.
-- Menyimpan catatan menggunakan `localStorage`.
-
-### 3.6 Fitur Tambahan
-- Halaman 404 untuk alamat yang tidak ditemukan.
-- Responsive design untuk desktop, tablet, dan mobile.
-- Semantic HTML.
-- Alt text pada gambar.
-- Label pada form.
-- Fokus keyboard yang terlihat.
-- Link untuk melewati navigasi dan langsung menuju konten.
-
-**Pengolahan harga:** DummyJSON menyediakan harga dalam USD. ProductHub menampilkannya dalam Rupiah menggunakan kurs tetap 1 USD = Rp16.000. Nilai ini merupakan asumsi konversi, bukan kurs real-time.
-
-Implementasi tersedia di `src/utils/formatCurrency.js`.
-
-## 4. React Router
-
-Routing didefinisikan di `src/App.jsx`, sedangkan `BrowserRouter` digunakan di `src/main.jsx`.
-
-Struktur routing:
+### Project Structure
 
 ```text
-MainLayout (Navbar + Outlet + Footer)
-│
-├── /                  → Home
-├── /products          → Products
-├── /products/:id      → ProductDetail
-├── /wishlist          → Wishlist
-├── /notes             → ProductNotes
-└── *                  → NotFound (404)
+producthub/
+├── public/
+├── src/
+│   ├── components/
+│   ├── layouts/
+│   │   └── MainLayout.jsx
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   ├── Products.jsx
+│   │   ├── ProductDetail.jsx
+│   │   ├── Wishlist.jsx
+│   │   ├── ProductNotes.jsx
+│   │   └── NotFound.jsx
+│   ├── context/
+│   │   ├── WishlistContext.jsx
+│   │   └── wishlistContextValue.js
+│   ├── hooks/
+│   │   ├── useFetch.js
+│   │   ├── useProducts.js
+│   │   ├── useProduct.js
+│   │   ├── useCategories.js
+│   │   ├── useLocalStorage.js
+│   │   ├── useNotes.js
+│   │   ├── useWishlist.js
+│   │   ├── useCatalogSummary.js
+│   │   └── useRelatedProducts.js
+│   ├── services/
+│   │   └── productService.js
+│   ├── utils/
+│   │   ├── formatCategory.js
+│   │   ├── formatCurrency.js
+│   │   ├── notes.js
+│   │   ├── productQuery.js
+│   │   └── wishlist.js
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── index.html
+├── package.json
+├── package-lock.json
+├── vercel.json
+└── README.md
 ```
 
-Penjelasan implementasi:
+*Note: The structure above highlights the main application directories and files.*
 
-- `BrowserRouter` digunakan untuk mengaktifkan routing berbasis browser.
-- `Routes` dan `Route` digunakan untuk mendefinisikan halaman.
-- `MainLayout` menjadi layout utama aplikasi.
-- `Outlet` digunakan untuk menampilkan halaman sesuai route yang aktif.
-- `Link` dan `NavLink` digunakan untuk navigasi tanpa reload penuh.
-- `useParams()` digunakan untuk membaca ID produk dari dynamic route `/products/:id`.
-- `useSearchParams()` digunakan untuk mengelola parameter pencarian, kategori, sorting, dan pagination pada URL.
+---
 
-`ProductCard` juga meneruskan informasi halaman sebelumnya melalui `location.state`, sehingga pengguna dapat kembali ke katalog dengan kondisi sebelumnya.
+## Routing
 
-## 5. State Management
+ProductHub uses **React Router DOM** with client-side navigation. This allows users to move between pages without a full browser reload.
 
-ProductHub menerapkan lima jenis state sesuai kebutuhan aplikasi.
-
-| Jenis State | Implementasi | Contoh |
+| Route | Page | Description |
 |---|---|---|
-| Local State | `useState` | Menu mobile dan foto aktif pada galeri |
-| Global State | Context API | Wishlist |
-| Server State | Custom hook `useFetch` | Data produk, detail, dan kategori |
-| URL State | `useSearchParams` | Search, kategori, sorting, pagination |
-| Form State | Controlled Components dan `useState` | Form catatan produk |
+| `/` | Home | Main dashboard and product highlights |
+| `/products` | Products | Product catalog, search, filters, and sorting |
+| `/products/:id` | Product Detail | Dynamic product detail page |
+| `/wishlist` | Wishlist | Saved favorite products |
+| `/notes` | Product Notes | Personal product notes |
+| `*` | Not Found | Custom 404 page |
 
-### Penjelasan
+The product detail page uses a dynamic route (`/products/:id`) to retrieve and display a product based on its ID.
 
-**Local State**
+A shared `MainLayout` contains the navigation bar and footer, while nested routes render their page content through React Router's `Outlet`.
 
-Digunakan untuk mengelola kondisi yang hanya dibutuhkan komponen tertentu, seperti menu mobile dan gambar aktif pada galeri produk.
+## State Management
 
-**Global State**
+The application demonstrates five types of state management:
 
-Menggunakan Context API agar data wishlist dapat diakses oleh beberapa komponen tanpa harus meneruskan props secara berulang.
+| State Type | Implementation | Example |
+|---|---|---|
+| Local State | `useState` | Mobile menu and active product image |
+| Global State | Context API | Wishlist shared across components |
+| Server State | `useFetch` | Product and category data from the API |
+| URL State | `useSearchParams` | Search, category, sorting, and pagination |
+| Form State | Controlled components | Product notes form |
 
-**Server State**
+This approach keeps state organized according to its responsibility and scope.
 
-Mengelola data yang diperoleh dari API, termasuk kondisi loading, error, dan retry.
+## Data Fetching
 
-**URL State**
+Product data is retrieved from the public **DummyJSON Products API**.
 
-Menyimpan kondisi katalog di URL sehingga hasil pencarian dan filter dapat dipertahankan ketika halaman dimuat ulang atau URL dibagikan.
+API endpoint:
 
-**Form State**
+```text
+https://dummyjson.com/products?limit=0
+```
 
-Menggunakan controlled components untuk mengelola input dan validasi pada form catatan produk.
+API documentation: https://dummyjson.com/docs/products
 
-## 6. Data Fetching dan API
+All API communication is organized in:
 
-Sumber data aplikasi menggunakan DummyJSON:
+```text
+src/services/productService.js
+```
 
-- API: https://dummyjson.com/products
-- Dokumentasi: https://dummyjson.com/docs/products
+The service layer handles product and category requests. The application uses reusable hooks to manage fetched data and its loading and error states.
 
-Seluruh fungsi pemanggilan API dipisahkan di:
+Additional implementation details:
 
-`src/services/productService.js`
+- Fetch API for HTTP requests.
+- `response.ok` checks for unsuccessful responses.
+- `try/catch` for network and request errors.
+- `AbortController` to cancel requests when they are no longer needed.
+- Client-side search, filtering, sorting, and pagination.
 
-Fungsi yang digunakan:
+**Currency note:** Product prices from DummyJSON are converted from USD to Indonesian Rupiah using a fixed reference rate of **1 USD = Rp16,000**. This is an application assumption, not a live exchange rate.
 
-- `getProducts()`
-- `getProductsByCategory()`
-- `getProductById()`
-- `getCategories()`
+## Custom Hooks
 
-Implementasi data fetching mencakup:
+Custom hooks are used to make application logic reusable and easier to maintain.
 
-- Menggunakan Fetch API.
-- Memeriksa `response.ok`.
-- Menangani kegagalan request menggunakan `try/catch`.
-- Menampilkan pesan error dalam bahasa Indonesia.
-- Menggunakan `AbortController` untuk membatalkan request ketika parameter berubah atau komponen dilepas.
-- Menyediakan kondisi loading, error, dan retry.
-
-### Pengolahan Data Katalog
-
-DummyJSON tidak menyediakan satu request yang menggabungkan seluruh kebutuhan pencarian, kategori, sorting, dan pagination aplikasi.
-
-Oleh karena itu, aplikasi mengambil daftar produk menggunakan `limit=0`, kemudian melakukan pencarian, filter, pengurutan, dan pagination di sisi klien.
-
-Logika tersebut dipisahkan di:
-
-`src/utils/productQuery.js`
-
-Pendekatan ini digunakan karena jumlah data produk pada API relatif kecil untuk kebutuhan demonstrasi aplikasi.
-
-## 7. Custom Hooks
-
-Custom hooks ditempatkan di `src/hooks` untuk memisahkan logika aplikasi dari tampilan komponen.
-
-| Custom Hook | Fungsi |
+| Hook | Responsibility |
 |---|---|
-| `useFetch` | Mengelola server state, loading, error, retry, dan pembatalan request |
-| `useProducts` | Mengambil data produk |
-| `useProduct` | Mengambil detail produk berdasarkan ID |
-| `useCategories` | Mengambil daftar kategori |
-| `useCatalogSummary` | Mengelola data ringkasan beranda |
-| `useRelatedProducts` | Mengambil produk serupa |
-| `useLocalStorage` | Sinkronisasi state dengan localStorage |
-| `useNotes` | Mengelola data catatan produk |
-| `useWishlist` | Mengakses data wishlist dari Context API |
+| `useFetch` | Generic data fetching, loading, error, retry, and request cancellation |
+| `useProducts` | Retrieve product catalog data |
+| `useProduct` | Retrieve an individual product |
+| `useCategories` | Retrieve product categories |
+| `useLocalStorage` | Synchronize state with browser storage |
+| `useNotes` | Manage product notes |
+| `useWishlist` | Access wishlist functionality |
+| `useCatalogSummary` | Prepare product highlights and catalog summaries |
+| `useRelatedProducts` | Retrieve related products |
 
-Penggunaan custom hooks membantu mengurangi duplikasi kode dan membuat logika lebih mudah digunakan kembali.
+## Context API
 
-## 8. Context API
+The application uses `WishlistContext` to manage wishlist data globally.
 
-Global state wishlist diimplementasikan menggunakan:
+The provider is implemented in:
 
-`src/context/WishlistContext.jsx`
+```text
+src/context/WishlistContext.jsx
+```
 
-`WishlistProvider` membungkus aplikasi dan menyediakan:
+It provides shared wishlist values and actions, including:
 
 - `items`
 - `count`
@@ -229,395 +244,157 @@ Global state wishlist diimplementasikan menggunakan:
 - `removeFromWishlist`
 - `isInWishlist`
 
-Data wishlist disimpan menggunakan `localStorage` dan divalidasi ketika dibaca agar data yang tidak sesuai format tidak langsung menyebabkan aplikasi mengalami error.
+This allows components such as the navigation bar, product cards, product details, and wishlist page to access consistent wishlist data.
 
-Context ini digunakan oleh Navbar, ProductCard, ProductDetailView, Home, dan Wishlist.
+## User Interface & Design
 
-## 9. Struktur Folder
+ProductHub uses a **modern luxury** visual direction, with an emphasis on readability, whitespace, and a consistent interface.
 
-```text
-ProductHub/
-│
-├── public/
-│
-├── src/
-│   ├── components/
-│   │   ├── EmptyState.jsx
-│   │   ├── ErrorMessage.jsx
-│   │   ├── FilterDropdown.jsx
-│   │   ├── Footer.jsx
-│   │   ├── Loading.jsx
-│   │   ├── Navbar.jsx
-│   │   ├── NoteForm.jsx
-│   │   ├── NoteList.jsx
-│   │   ├── Pagination.jsx
-│   │   ├── ProductCard.jsx
-│   │   ├── ProductDetailView.jsx
-│   │   ├── ProductGallery.jsx
-│   │   ├── ProductGrid.jsx
-│   │   ├── RelatedProducts.jsx
-│   │   ├── SearchBar.jsx
-│   │   ├── SelectField.jsx
-│   │   └── SortDropdown.jsx
-│   │
-│   ├── layouts/
-│   │   └── MainLayout.jsx
-│   │
-│   ├── pages/
-│   │   ├── Home.jsx
-│   │   ├── NotFound.jsx
-│   │   ├── ProductDetail.jsx
-│   │   ├── ProductNotes.jsx
-│   │   ├── Products.jsx
-│   │   └── Wishlist.jsx
-│   │
-│   ├── context/
-│   │   ├── WishlistContext.jsx
-│   │   └── wishlistContextValue.js
-│   │
-│   ├── hooks/
-│   │   ├── useCatalogSummary.js
-│   │   ├── useCategories.js
-│   │   ├── useFetch.js
-│   │   ├── useLocalStorage.js
-│   │   ├── useNotes.js
-│   │   ├── useProduct.js
-│   │   ├── useProducts.js
-│   │   ├── useRelatedProducts.js
-│   │   └── useWishlist.js
-│   │
-│   ├── services/
-│   │   └── productService.js
-│   │
-│   ├── utils/
-│   │   ├── formatCategory.js
-│   │   ├── formatCurrency.js
-│   │   ├── notes.js
-│   │   ├── productQuery.js
-│   │   └── wishlist.js
-│   │
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-│
-├── .gitignore
-├── .oxlintrc.json
-├── index.html
-├── package.json
-├── package-lock.json
-├── README.md
-├── vercel.json
-└── vite.config.js
-```
+Design characteristics:
 
-### Pemisahan Tanggung Jawab
+- Warm ivory background.
+- Neutral surfaces and dark typography.
+- Subtle gold accents.
+- Inter and Instrument Serif typography.
+- Responsive product grids and navigation.
+- Lightweight transitions and interactive feedback.
 
-- `components/`: komponen antarmuka yang dapat digunakan kembali.
-- `layouts/`: layout utama aplikasi.
-- `pages/`: halaman yang terhubung dengan routing.
-- `context/`: pengelolaan global state.
-- `hooks/`: logika yang dapat digunakan kembali.
-- `services/`: komunikasi dengan API eksternal.
-- `utils/`: fungsi pembantu dan pengolahan data.
-- `App.jsx`: definisi route aplikasi.
-- `main.jsx`: entry point React dan provider aplikasi.
-- `index.css`: design token dan styling aplikasi.
+The interface also includes reduced-motion support through the `prefers-reduced-motion` media query.
 
-## 10. Desain UI dan Responsive Design
+---
 
-ProductHub menggunakan pendekatan desain **Modern Luxury** dengan tampilan minimalis, bersih, dan elegan.
+## Installation & Local Development
 
-### Identitas Visual
+### Prerequisites
 
-| Elemen | Nilai |
-|---|---|
-| Background utama | `#F7F5F0` |
-| Card | Putih |
-| Teks utama | `#1E293B` |
-| Aksen | `#A68A64` |
-| Border | `#E9E4DA` |
-
-### Tipografi
-
-- Inter digunakan untuk teks utama.
-- Instrument Serif digunakan untuk judul.
-
-Font dimuat melalui Google Fonts pada `index.html`.
-
-### Responsive Design
-
-Breakpoint yang digunakan:
-
-- 960px: hero dan form catatan menjadi satu kolom.
-- 760px: navbar mobile dan grid produk dua kolom.
-- 720px: detail produk menjadi satu kolom.
-- 480px: dropdown menyesuaikan lebar layar.
-
-### Interaksi dan Aksesibilitas
-
-- Hover pada kartu produk.
-- Zoom gambar produk.
-- Indikator menu aktif.
-- Navigasi mobile.
-- Animasi wishlist.
-- Transisi perpindahan halaman.
-- Dukungan `prefers-reduced-motion` untuk mengurangi animasi dan transisi sesuai preferensi perangkat.
-
-## 11. Instalasi dan Menjalankan Aplikasi
-
-### Prasyarat
-
-- Node.js versi 20 atau lebih baru.
+- Node.js 20 or later.
 - npm.
-- Koneksi internet untuk mengambil data dari DummyJSON.
+- Git.
+- Internet connection for retrieving product data from DummyJSON.
 
-### Langkah Instalasi
-
-Clone repository:
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/syamildh03-cmd/ProductHub.git
 ```
 
-Masuk ke folder proyek:
+### 2. Open the Project Directory
 
 ```bash
 cd ProductHub
 ```
 
-Instal dependensi:
+### 3. Install Dependencies
 
 ```bash
 npm install
 ```
 
-Jalankan development server:
+### 4. Run the Development Server
 
 ```bash
 npm run dev
 ```
 
-Buka alamat:
+Open the local address shown in the terminal, usually:
 
 ```text
 http://localhost:5173
 ```
 
-### Perintah Tambahan
-
-Build aplikasi:
+### 5. Create a Production Build
 
 ```bash
 npm run build
 ```
 
-Menjalankan preview hasil build:
+The production output is generated in the `dist/` directory.
+
+### 6. Preview the Production Build
 
 ```bash
 npm run preview
 ```
 
-Menjalankan lint:
+---
 
-```bash
-npm run lint
-```
+## Deployment
 
-## 12. Pengujian Aplikasi
+ProductHub is deployed using **Vercel** and connected to the GitHub repository.
 
-Pengujian dilakukan secara manual pada aplikasi yang berjalan di lingkungan lokal menggunakan browser.
-
-### 12.1 Hasil Pengujian Manual
-
-| No. | Skenario Pengujian | Hasil |
-|---|---|---|
-| 1 | Membuka halaman utama | Berhasil |
-| 2 | Mengambil data dari DummyJSON | Berhasil |
-| 3 | Mencari produk menggunakan kata kunci `rolex` | Berhasil |
-| 4 | Memfilter kategori Beauty | Berhasil |
-| 5 | Mengurutkan harga dari rendah ke tinggi dan sebaliknya | Berhasil |
-| 6 | Berpindah halaman pagination | Berhasil |
-| 7 | Membuka detail produk melalui dynamic route | Berhasil |
-| 8 | Refresh halaman detail produk | Berhasil |
-| 9 | Menambahkan produk ke wishlist | Berhasil |
-| 10 | Mempertahankan wishlist setelah refresh | Berhasil |
-| 11 | Validasi dan penyimpanan catatan produk | Berhasil |
-| 12 | Mempertahankan catatan setelah refresh | Berhasil |
-| 13 | Membuka alamat yang tidak tersedia (404) | Berhasil |
-| 14 | Memeriksa tampilan responsif menggunakan emulasi perangkat browser | Berhasil |
-
-### 12.2 Verifikasi API
-
-Endpoint berikut dibuka secara langsung melalui browser:
-
-https://dummyjson.com/products?limit=0
-
-Respons JSON menampilkan daftar produk dengan nilai `total` sebanyak **194 produk pada saat pengujian tanggal 24 November 2026**.
-
-Data API juga berhasil digunakan pada aplikasi untuk menguji pencarian, filter kategori, sorting, dan pagination.
-
-Jumlah produk dapat berubah mengikuti data yang disediakan oleh DummyJSON.
-
-### 12.3 Hasil Build dan Lint
-
-**Build**
-
-Perintah:
-
-```bash
-npm run build
-```
-
-Hasil: **Berhasil**.
-
-Vite berhasil melakukan proses transformasi modul dan menghasilkan folder `dist/` untuk kebutuhan produksi.
-
-**Lint**
-
-Perintah:
-
-```bash
-npm run lint
-```
-
-Pada komputer pengembang, proses lint belum dapat diselesaikan karena Windows Application Control memblokir native binary Oxlint (`oxlint.win32-x64-msvc.node`).
-
-Kendala tersebut merupakan pembatasan eksekusi pada lingkungan Windows, sehingga hasil lint belum dapat dinyatakan berhasil pada komputer pengembang.
-
-### 12.4 Batasan Pengujian
-
-- Pengujian dilakukan pada browser lokal, bukan seluruh perangkat fisik.
-- Responsivitas diperiksa melalui emulasi ukuran layar browser.
-- Pengujian otomatis yang pernah dilakukan dalam lingkungan pengembangan tidak disertakan sebagai skrip yang dapat dijalankan ulang di repository ini.
-- Pengujian deployment Vercel dan akses langsung melalui domain publik belum dilakukan pada saat dokumentasi ini disusun.
-- Pengujian pemulihan koneksi internet dan kondisi API tidak tersedia belum diklaim berhasil dalam pengujian manual.
-
-## 13. Deployment
-
-### 13.1 Repository GitHub
-
-Repository proyek:
-
-https://github.com/syamildh03-cmd/ProductHub
-
-Branch utama:
-
-```text
-main
-```
-
-Untuk mengirim perubahan terbaru ke GitHub:
-
-```bash
-git add .
-git commit -m "docs: update project documentation"
-git push
-```
-
-### 13.2 Deployment ke Vercel
-
-Aplikasi disiapkan untuk deployment menggunakan Vercel.
-
-Langkah deployment:
-
-1. Masuk ke Vercel.
-2. Pilih **Add New → Project**.
-3. Hubungkan akun GitHub.
-4. Impor repository `ProductHub`.
-5. Pastikan framework preset terdeteksi sebagai Vite.
-6. Periksa konfigurasi build berikut:
-
-| Pengaturan | Nilai |
+| Item | Deployment Information |
 |---|---|
-| Framework Preset | Vite |
+| Platform | Vercel |
+| Framework | Vite |
 | Build Command | `npm run build` |
 | Output Directory | `dist` |
 | Install Command | `npm install` |
+| Environment Variables | Not required |
 
-7. Klik **Deploy**.
+**Production URL:** https://product-hub-kappa-murex.vercel.app
 
-Tidak diperlukan environment variable khusus untuk konfigurasi aplikasi saat ini.
-
-### 13.3 Konfigurasi SPA
-
-File `vercel.json` digunakan untuk mengarahkan permintaan route aplikasi ke `index.html`.
-
-```json
-{
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
-}
-```
-
-Konfigurasi ini diperlukan agar halaman dynamic route seperti `/products/5` tetap dapat dibuka ketika URL diakses secara langsung atau browser di-refresh.
-
-**Status deployment:** Konfigurasi deployment sudah disiapkan. URL produksi perlu ditambahkan setelah proses deployment Vercel berhasil dilakukan dan diverifikasi.
-
-## 14. Catatan Teknis
-
-### Mengapa semua produk diambil sekaligus?
-
-Karena kebutuhan pencarian, filter kategori, sorting, dan pagination diproses di sisi klien. Data diambil melalui satu request daftar produk, kemudian diolah menggunakan fungsi pada `productQuery.js`.
-
-### Mengapa menggunakan Context API?
-
-Wishlist digunakan oleh beberapa bagian aplikasi. Context API membantu menyediakan data tersebut secara global tanpa harus meneruskan props melalui banyak komponen.
-
-### Mengapa menggunakan localStorage?
-
-Aplikasi tidak menggunakan backend atau database sendiri. `localStorage` digunakan agar wishlist dan catatan tetap tersimpan pada browser setelah halaman dimuat ulang.
-
-### Mengapa harga menggunakan Rupiah?
-
-Agar tampilan harga lebih mudah dipahami oleh pengguna Indonesia. Konversi menggunakan asumsi kurs tetap, bukan data nilai tukar secara real-time.
+The project includes `vercel.json` to support client-side routing. This allows routes such as `/products/5` to be opened or refreshed directly without returning a server-side 404.
 
 ---
 
-## 15. Panduan Presentasi
+## Testing & Verification
 
-Estimasi durasi: ±3 menit.
+The following checks were performed during local development and deployment.
 
-**Pembukaan**
+| Test Scenario | Result |
+|---|---|
+| Application starts in development mode | Passed |
+| Production build using `npm run build` | Passed |
+| Product data retrieval from DummyJSON | Verified |
+| Product search | Passed |
+| Category filtering | Passed |
+| Price sorting | Passed |
+| Catalog pagination | Passed |
+| Dynamic product detail route | Passed |
+| Refresh on a product detail URL | Passed locally |
+| Wishlist persistence after refresh | Passed |
+| Product notes validation and persistence | Passed |
+| Custom 404 page | Passed |
+| Responsive layout check | Checked using browser viewport emulation |
+| Vercel deployment | Successful |
 
-"ProductHub merupakan aplikasi katalog produk berbasis React. Aplikasi ini mengambil data dari API publik DummyJSON dan menyediakan fitur pencarian, filter, sorting, detail produk, wishlist, serta catatan produk."
+**Development notes:**
 
-**Routing**
-
-"Saya menggunakan React Router untuk mengelola navigasi antarhalaman. Terdapat MainLayout dengan Outlet, sehingga navbar dan footer dapat digunakan bersama. Saya juga menggunakan dynamic route `/products/:id` untuk menampilkan detail produk berdasarkan ID."
-
-**State Management**
-
-"Pada aplikasi ini saya menerapkan lima jenis state. Local state menggunakan useState, global state menggunakan Context API untuk wishlist, server state menggunakan custom hook useFetch, URL state menggunakan useSearchParams, dan form state menggunakan controlled components."
-
-**Data Fetching**
-
-"Data produk diambil dari DummyJSON menggunakan Fetch API. Pemanggilan API dipisahkan di folder services. Saya juga menerapkan loading state, error handling, retry, dan AbortController."
-
-**Arsitektur**
-
-"Struktur proyek dipisahkan menjadi components, pages, layouts, hooks, context, services, dan utils. Tujuannya agar kode lebih terorganisasi, mudah dipelihara, dan logika aplikasi tidak bercampur dengan tampilan."
-
-**Demo Aplikasi**
-
-Urutan demonstrasi yang disarankan:
-
-1. Buka halaman beranda.
-2. Masuk ke katalog produk.
-3. Cari produk menggunakan kata kunci.
-4. Gunakan filter kategori.
-5. Ubah urutan harga.
-6. Buka detail produk.
-7. Tambahkan produk ke wishlist.
-8. Buka halaman wishlist.
-9. Refresh halaman untuk memperlihatkan persistensi data.
-10. Buka halaman catatan dan tunjukkan validasi form.
+- The production build completed successfully in the development environment.
+- `npm run lint` could not be completed on the development machine because Windows Application Control blocked the Oxlint native binary. This is recorded as an environment limitation; it should not be interpreted as a successful lint run.
+- The project was manually checked in a browser. Automated test scripts are not included in this repository.
+- Responsive behavior was checked using browser viewport emulation; this does not replace testing on every physical device.
 
 ---
 
-**ProductHub — Smart Product Catalog**
+## Learning Outcomes
 
-Dikembangkan sebagai proyek pembelajaran React untuk menerapkan konsep routing, state management, data fetching, dan application architecture.
+Through this project, the following concepts were applied:
+
+1. Building reusable user interface components with React.
+2. Implementing client-side routing and dynamic routes.
+3. Managing local, global, server, URL, and form state.
+4. Retrieving data from a public REST API.
+5. Creating reusable custom hooks.
+6. Separating API services, application logic, and presentation.
+7. Persisting browser-side data using `localStorage`.
+8. Building and deploying a React application using Vite and Vercel.
+
+## Project Information
+
+| Attribute | Details |
+|---|---|
+| Project Name | ProductHub — Smart Product Catalog |
+| Project Type | Individual Academic Project |
+| Course | Web Programming |
+| Main Framework | React |
+| Build Tool | Vite |
+| Language | JavaScript (JSX) |
+| API | DummyJSON |
+| Deployment | Vercel |
+| Repository | `syamildh03-cmd/ProductHub` |
+
+---
+
+**ProductHub**  
+*A React-based product catalog application built to demonstrate modern frontend development concepts.*
