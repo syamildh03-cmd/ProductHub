@@ -37,3 +37,13 @@ export function paginate(items, page, pageSize = PAGE_SIZE) {
   const start = (currentPage - 1) * pageSize
   return { items: items.slice(start, start + pageSize), totalPages, currentPage }
 }
+
+// Daftar nomor halaman untuk Pagination, mis. [1, '…', 4, 5, 6, '…', 20].
+export function getPageItems(currentPage, totalPages) {
+  const pages = [...new Set([1, totalPages, currentPage - 1, currentPage, currentPage + 1])]
+    .filter((page) => page >= 1 && page <= totalPages)
+    .sort((a, b) => a - b)
+  return pages.flatMap((page, index) =>
+    index > 0 && page - pages[index - 1] > 1 ? ['…', page] : [page],
+  )
+}
