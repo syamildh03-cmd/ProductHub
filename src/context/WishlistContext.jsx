@@ -1,4 +1,5 @@
-import { createContext, useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
+import { WishlistContext } from './wishlistContextValue.js'
 import useLocalStorage from '../hooks/useLocalStorage.js'
 import {
   WISHLIST_STORAGE_KEY,
@@ -7,8 +8,6 @@ import {
   hasItem,
   isValidWishlist,
 } from '../utils/wishlist.js'
-
-export const WishlistContext = createContext(null)
 
 export function WishlistProvider({ children }) {
   const [stored, setStored] = useLocalStorage(WISHLIST_STORAGE_KEY, [])
