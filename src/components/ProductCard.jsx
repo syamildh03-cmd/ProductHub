@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Heart, Star } from 'lucide-react'
 import useWishlist from '../hooks/useWishlist.js'
 import { formatCurrency } from '../utils/formatCurrency.js'
 
 export default function ProductCard({ product }) {
+  const { pathname, search } = useLocation()
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist()
   const saved = isInWishlist(product.id)
   const discount = Math.round(product.discountPercentage ?? 0)
@@ -12,7 +13,7 @@ export default function ProductCard({ product }) {
 
   return (
     <article className="product-card">
-      <Link to={`/products/${product.id}`} className="product-card__link">
+      <Link to={`/products/${product.id}`} state={{ from: `${pathname}${search}` }} className="product-card__link">
         <div className="product-card__media">
           <img src={product.thumbnail} alt={product.title} loading="lazy" />
           {discount >= 1 && <span className="product-card__discount">{`-${discount}%`}</span>}

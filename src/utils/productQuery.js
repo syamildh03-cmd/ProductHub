@@ -47,3 +47,7 @@ export function getPageItems(currentPage, totalPages) {
     index > 0 && page - pages[index - 1] > 1 ? ['…', page] : [page],
   )
 }
+
+export function topRated(products, count) {
+  return [...products].sort((a, b) => b.rating - a.rating).slice(0, count)
+}
