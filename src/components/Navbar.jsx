@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Boxes, Menu, X } from 'lucide-react'
+import useWishlist from '../hooks/useWishlist.js'
 
 const NAV_ITEMS = [
   { to: '/', label: 'Beranda', end: true },
@@ -11,6 +12,7 @@ const NAV_ITEMS = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { count } = useWishlist()
   const closeMenu = () => setMenuOpen(false)
 
   return (
@@ -36,6 +38,12 @@ export default function Navbar() {
           {NAV_ITEMS.map((item) => (
             <NavLink key={item.to} to={item.to} end={item.end} onClick={closeMenu}>
               {item.label}
+              {item.to === '/wishlist' && count > 0 && (
+                <span className="navbar__badge">
+                  {count}
+                  <span className="sr-only"> produk tersimpan</span>
+                </span>
+              )}
             </NavLink>
           ))}
         </nav>
